@@ -10,54 +10,118 @@
         body {
             margin: 0;
             padding: 0;
-            background: radial-gradient(circle, #fff5f7 0%, #ffeef2 100%);
+            background: #fff5f7;
             font-family: 'Segoe UI', Roboto, sans-serif;
             overflow-x: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .screen {
             display: none;
-            text-align: center;
             width: 100%;
+            min-height: 100vh;
             padding: 20px;
             z-index: 10;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .active {
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            animation: fadeIn 1.5s ease-in-out;
+            animation: fadeIn 1s ease-in-out;
         }
 
         h1 {
             color: #d63384;
-            font-size: 2rem;
+            font-size: 2.2rem;
+            text-align: center;
             margin-bottom: 30px;
-            padding: 0 10px;
+        }
+
+        /* Container for photos and message */
+        .content-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .message-box {
             background: rgba(255, 255, 255, 0.95);
-            padding: 30px 20px;
+            padding: 30px;
             border-radius: 25px;
-            max-width: 500px;
             width: 90%;
-            box-shadow: 0 15px 40px rgba(214, 51, 132, 0.15);
-            margin: 20px auto;
-            position: relative;
-            z-index: 5;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(214, 51, 132, 0.15);
             border: 1.5px solid #ffccd5;
+            text-align: center;
+            z-index: 5;
+            margin: 20px 0;
+        }
+
+        .polaroid {
+            background: white;
+            padding: 10px 10px 30px 10px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            width: 150px;
+            transition: 0.3s;
+            margin: 10px;
+        }
+
+        .polaroid img {
+            width: 130px;
+            height: 130px;
+            object-fit: cover;
+        }
+
+        /* --- DESKTOP VIEW (Floating) --- */
+        @media (min-width: 801px) {
+            .polaroid { position: absolute; }
+            #p1 { top: -50px; left: -150px; transform: rotate(-10deg); }
+            #p2 { top: 150px; left: -180px; transform: rotate(5deg); }
+            #p3 { top: -50px; right: -150px; transform: rotate(12deg); }
+            #p4 { top: 150px; right: -180px; transform: rotate(-8deg); }
+            #p5 { bottom: -100px; left: -50px; transform: rotate(10deg); }
+            #p6 { bottom: -100px; right: -50px; transform: rotate(-10deg); }
+        }
+
+        /* --- MOBILE VIEW (Grid/Stack) --- */
+        @media (max-width: 800px) {
+            body { overflow-y: auto; display: block; }
+            .screen { height: auto; padding-top: 40px; }
+            
+            .photo-grid {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+                margin-bottom: 20px;
+            }
+
+            .polaroid {
+                position: static !important;
+                width: 42%; /* Two photos per row */
+                transform: rotate(0deg) !important;
+                margin: 5px;
+            }
+
+            .polaroid img {
+                width: 100%;
+                height: 120px;
+            }
+
+            h1 { font-size: 1.8rem; }
         }
 
         button {
-            padding: 15px 40px;
-            font-size: 1.1rem;
+            padding: 15px 50px;
+            font-size: 1.2rem;
             background: linear-gradient(45deg, #ff4d6d, #ff758c);
             color: white;
             border: none;
@@ -65,70 +129,15 @@
             cursor: pointer;
             font-weight: bold;
             box-shadow: 0 8px 20px rgba(255, 77, 109, 0.3);
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        /* Polaroid Styles */
-        .polaroid {
-            position: absolute;
-            background: white;
-            padding: 8px 8px 25px 8px;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
-            width: 120px; /* Default for desktop */
-            z-index: 1;
-        }
-
-        .polaroid img {
-            width: 100%;
-            height: 100px;
-            object-fit: cover;
-        }
-
-        /* Photo Placement (Desktop) */
-        #p1 { top: 5%; left: 5%; transform: rotate(-10deg); }
-        #p2 { top: 40%; left: 2%; transform: rotate(5deg); }
-        #p3 { top: 5%; right: 5%; transform: rotate(12deg); }
-        #p4 { top: 40%; right: 2%; transform: rotate(-8deg); }
-        #p5 { bottom: 5%; left: 10%; transform: rotate(15deg); }
-        #p6 { bottom: 5%; right: 10%; transform: rotate(-12deg); }
-
-        /* MOBILE OPTIMIZATION */
-        @media (max-width: 600px) {
-            h1 { font-size: 1.5rem; }
-            
-            .message-box { 
-                margin-top: 100px; 
-                margin-bottom: 100px;
-                padding: 25px 15px;
-            }
-
-            .message-box p {
-                font-size: 1.1rem !important;
-                line-height: 1.6 !important;
-            }
-
-            .polaroid {
-                width: 80px; /* Smaller for phones */
-                padding: 5px 5px 15px 5px;
-            }
-
-            .polaroid img { height: 70px; }
-
-            /* Rearrange for phone to avoid covering text */
-            #p1 { top: 2%; left: 5%; }
-            #p2 { top: 12%; right: 5%; left: auto; }
-            #p3 { top: auto; bottom: 15%; left: 5%; }
-            #p4 { top: auto; bottom: 5%; right: 5%; }
-            #p5 { top: 25%; left: -5%; }
-            #p6 { top: auto; bottom: 25%; right: -5%; }
         }
 
         .heart {
             position: fixed;
             color: #ff4d6d;
             top: -10%;
-            z-index: 0;
+            z-index: 1;
             animation: float 4s linear infinite;
+            pointer-events: none;
         }
 
         @keyframes float {
@@ -137,8 +146,8 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
     </style>
 </head>
@@ -154,18 +163,24 @@
     </div>
 
     <div id="screen2" class="screen">
-        <div class="polaroid" id="p1"><img src="photo1.jpg"></div>
-        <div class="polaroid" id="p2"><img src="photo2.jpg"></div>
-        <div class="polaroid" id="p3"><img src="photo3.jpg"></div>
-        <div class="polaroid" id="p4"><img src="photo4.jpg"></div>
-        <div class="polaroid" id="p5"><img src="photo5.jpg"></div>
-        <div class="polaroid" id="p6"><img src="photo6.jpg"></div>
+        <div class="content-wrapper">
+            
+            <div class="photo-grid">
+                <div class="polaroid" id="p1"><img src="photo1.jpg"></div>
+                <div class="polaroid" id="p2"><img src="photo2.jpg"></div>
+                <div class="polaroid" id="p3"><img src="photo3.jpg"></div>
+                <div class="polaroid" id="p4"><img src="photo4.jpg"></div>
+                <div class="polaroid" id="p5"><img src="photo5.jpg"></div>
+                <div class="polaroid" id="p6"><img src="photo6.jpg"></div>
+            </div>
 
-        <div class="message-box">
-            <p style="font-size: 1.2rem; color: #333; margin: 0;">
-                "<b>Neha</b>, hamare is saath ko itne saal ho gaye, par sach kahun toh tumhare bina main kuch bhi nahi. Tumne sirf mera ghar nahi sambhala, balki har mushkil mein mera sabse bada support rahi ho. Is poore parivaar ko tumne jis pyaar se bandh kar rakha hai, uske liye thank you bolna bhi kam hai. Tum meri life ki sabse khoobsurat hissa ho aur hamesha rahogi."
-            </p>
-            <p style="font-weight: bold; color: #ff4d6d; font-size: 1.5rem; margin-top: 15px;">I Love You! ❤️</p>
+            <div class="message-box">
+                <p style="font-size: 1.2rem; line-height: 1.6; color: #333;">
+                    "<b>Neha</b>, hamare is saath ko itne saal ho gaye, par sach kahun toh tumhare bina main kuch bhi nahi. Tumne sirf mera ghar nahi sambhala, balki har mushkil mein mera sabse bada support rahi ho. Is poore parivaar ko tumne jis pyaar se bandh kar rakha hai, uske liye thank you bolna bhi kam hai. Tum meri life ki sabse khoobsurat hissa ho aur hamesha rahogi."
+                </p>
+                <p style="font-weight: bold; color: #ff4d6d; font-size: 1.6rem; margin-top: 15px;">I Love You! ❤️</p>
+            </div>
+
         </div>
     </div>
 
@@ -175,7 +190,7 @@
             document.getElementById('screen2').classList.add('active');
             
             var music = document.getElementById('bgMusic');
-            music.play().catch(e => console.log("Play failed"));
+            music.play();
 
             setInterval(createHeart, 400);
         }
