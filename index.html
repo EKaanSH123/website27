@@ -2,94 +2,133 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>For My Neha</title>
     <style>
+        * { box-sizing: border-box; }
+        
         body {
             margin: 0;
             padding: 0;
             background: radial-gradient(circle, #fff5f7 0%, #ffeef2 100%);
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Roboto, sans-serif;
             overflow-x: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
         }
 
         .screen {
             display: none;
             text-align: center;
-            z-index: 10;
             width: 100%;
+            padding: 20px;
+            z-index: 10;
         }
 
         .active {
-            display: block;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             animation: fadeIn 1.5s ease-in-out;
         }
 
         h1 {
             color: #d63384;
-            font-size: 2.5rem;
+            font-size: 2rem;
             margin-bottom: 30px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+            padding: 0 10px;
         }
 
         .message-box {
             background: rgba(255, 255, 255, 0.95);
-            padding: 40px;
-            border-radius: 30px;
-            max-width: 600px;
-            box-shadow: 0 20px 50px rgba(214, 51, 132, 0.1);
-            margin: auto;
+            padding: 30px 20px;
+            border-radius: 25px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 15px 40px rgba(214, 51, 132, 0.15);
+            margin: 20px auto;
             position: relative;
             z-index: 5;
-            border: 1px solid #ffccd5;
+            border: 1.5px solid #ffccd5;
         }
 
         button {
-            padding: 18px 60px;
-            font-size: 1.3rem;
+            padding: 15px 40px;
+            font-size: 1.1rem;
             background: linear-gradient(45deg, #ff4d6d, #ff758c);
             color: white;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             font-weight: bold;
-            box-shadow: 0 10px 20px rgba(255, 77, 109, 0.3);
+            box-shadow: 0 8px 20px rgba(255, 77, 109, 0.3);
+            -webkit-tap-highlight-color: transparent;
         }
 
-        button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 15px 25px rgba(255, 77, 109, 0.5);
-        }
-
+        /* Polaroid Styles */
         .polaroid {
             position: absolute;
             background: white;
-            padding: 10px 10px 40px 10px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            width: 160px;
-            border-radius: 2px;
+            padding: 8px 8px 25px 8px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            width: 120px; /* Default for desktop */
             z-index: 1;
         }
 
         .polaroid img {
-            width: 160px;
-            height: 160px;
+            width: 100%;
+            height: 100px;
             object-fit: cover;
+        }
+
+        /* Photo Placement (Desktop) */
+        #p1 { top: 5%; left: 5%; transform: rotate(-10deg); }
+        #p2 { top: 40%; left: 2%; transform: rotate(5deg); }
+        #p3 { top: 5%; right: 5%; transform: rotate(12deg); }
+        #p4 { top: 40%; right: 2%; transform: rotate(-8deg); }
+        #p5 { bottom: 5%; left: 10%; transform: rotate(15deg); }
+        #p6 { bottom: 5%; right: 10%; transform: rotate(-12deg); }
+
+        /* MOBILE OPTIMIZATION */
+        @media (max-width: 600px) {
+            h1 { font-size: 1.5rem; }
+            
+            .message-box { 
+                margin-top: 100px; 
+                margin-bottom: 100px;
+                padding: 25px 15px;
+            }
+
+            .message-box p {
+                font-size: 1.1rem !important;
+                line-height: 1.6 !important;
+            }
+
+            .polaroid {
+                width: 80px; /* Smaller for phones */
+                padding: 5px 5px 15px 5px;
+            }
+
+            .polaroid img { height: 70px; }
+
+            /* Rearrange for phone to avoid covering text */
+            #p1 { top: 2%; left: 5%; }
+            #p2 { top: 12%; right: 5%; left: auto; }
+            #p3 { top: auto; bottom: 15%; left: 5%; }
+            #p4 { top: auto; bottom: 5%; right: 5%; }
+            #p5 { top: 25%; left: -5%; }
+            #p6 { top: auto; bottom: 25%; right: -5%; }
         }
 
         .heart {
             position: fixed;
             color: #ff4d6d;
-            font-size: 20px;
             top: -10%;
             z-index: 0;
             animation: float 4s linear infinite;
-            pointer-events: none;
         }
 
         @keyframes float {
@@ -98,23 +137,8 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Photo Positions */
-        #p1 { top: 5%; left: 8%; transform: rotate(-10deg); }
-        #p2 { top: 45%; left: 3%; transform: rotate(5deg); }
-        #p3 { top: 5%; right: 8%; transform: rotate(12deg); }
-        #p4 { top: 45%; right: 3%; transform: rotate(-8deg); }
-        #p5 { bottom: 5%; left: 15%; transform: rotate(15deg); }
-        #p6 { bottom: 5%; right: 15%; transform: rotate(-12deg); }
-
-        @media (max-width: 768px) {
-            .polaroid { width: 100px; }
-            .polaroid img { width: 100px; height: 100px; }
-            .message-box { width: 85%; padding: 25px; }
-            h1 { font-size: 1.8rem; }
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
         }
     </style>
 </head>
@@ -138,28 +162,22 @@
         <div class="polaroid" id="p6"><img src="photo6.jpg"></div>
 
         <div class="message-box">
-            <p style="font-size: 1.3rem; line-height: 1.8; color: #333;">
+            <p style="font-size: 1.2rem; color: #333; margin: 0;">
                 "<b>Neha</b>, hamare is saath ko itne saal ho gaye, par sach kahun toh tumhare bina main kuch bhi nahi. Tumne sirf mera ghar nahi sambhala, balki har mushkil mein mera sabse bada support rahi ho. Is poore parivaar ko tumne jis pyaar se bandh kar rakha hai, uske liye thank you bolna bhi kam hai. Tum meri life ki sabse khoobsurat hissa ho aur hamesha rahogi."
             </p>
-            <p style="font-weight: bold; color: #ff4d6d; font-size: 1.8rem; margin-top: 20px;">I Love You! ❤️</p>
-            <p style="color: #888; font-size: 1rem;">—Ashu❤️ </p>
+            <p style="font-weight: bold; color: #ff4d6d; font-size: 1.5rem; margin-top: 15px;">I Love You! ❤️</p>
         </div>
     </div>
 
     <script>
         function startGift() {
-            // Screen change
             document.getElementById('screen1').classList.remove('active');
             document.getElementById('screen2').classList.add('active');
             
-            // Start Music
             var music = document.getElementById('bgMusic');
-            music.play().catch(function(error) {
-                console.log("Auto-play was prevented, but button click should fix this.");
-            });
+            music.play().catch(e => console.log("Play failed"));
 
-            // Start Floating Hearts
-            setInterval(createHeart, 300);
+            setInterval(createHeart, 400);
         }
 
         function createHeart() {
@@ -167,11 +185,10 @@
             heart.classList.add('heart');
             heart.innerHTML = '❤️';
             heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
-            heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            heart.style.fontSize = (Math.random() * 15 + 15) + 'px';
+            heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
             document.body.appendChild(heart);
-
-            setTimeout(() => { heart.remove(); }, 5000);
+            setTimeout(() => { heart.remove(); }, 4000);
         }
     </script>
 </body>
